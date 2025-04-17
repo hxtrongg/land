@@ -1,64 +1,61 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nhận báo giá BĐS</title>
+  <meta charset="UTF-8">
+  <title>Form Nhận Báo Giá BĐS</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Đăng ký nhận báo giá BĐS</h2>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Nhận Báo Giá Bất Động Sản</h2>
     <form id="bds-form" class="space-y-4">
       <div>
         <label for="name" class="block text-sm font-medium text-gray-700">Họ và tên</label>
-        <input type="text" name="name" id="name" required
-          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+        <input type="text" id="name" name="name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
       </div>
-
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+      </div>
       <div>
         <label for="phone" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
-        <input type="tel" name="phone" id="phone" required
-          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+        <input type="tel" id="phone" name="phone" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
       </div>
-
-      <div>
-        <label for="location" class="block text-sm font-medium text-gray-700">Khu vực quan tâm</label>
-        <input type="text" name="location" id="location"
-          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-      </div>
-
-      <button type="submit"
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">Gửi thông tin</button>
+      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition">Gửi</button>
     </form>
-    <p id="success-msg" class="text-green-600 text-sm text-center mt-4 hidden">Đã gửi thành công!</p>
+    <p id="result" class="mt-4 text-center text-green-600 font-medium"></p>
   </div>
 
   <script>
-    const form = document.getElementById("bds-form");
-    const successMsg = document.getElementById("success-msg");
+    const form = document.getElementById('bds-form');
+    const result = document.getElementById('result');
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value
+      };
 
       try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbzgAx9g1C7NU7CRr63knL78hLMrQ95aBm4XimGRYiP0Fg9BZ1iIAMTRJ7ZLPYRzA7eVZw/exec", {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const response = await fetch('https://script.google.com/macros/s/AKfycbzgAx9g1C7NU7CRr63knL78hLMrQ95aBm4XimGRYiP0Fg9BZ1iIAMTRJ7ZLPYRzA7eVZw/exec', {
+          method: 'POST',
           body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
+        const text = await response.text();
+        result.textContent = text || "Gửi thành công!";
         form.reset();
-        successMsg.classList.remove("hidden");
-      } catch (err) {
-        alert("Có lỗi xảy ra, vui lòng thử lại!");
-        console.error(err);
+      } catch (error) {
+        result.textContent = "Đã có lỗi xảy ra. Vui lòng thử lại.";
+        result.classList.remove("text-green-600");
+        result.classList.add("text-red-600");
+        console.error('Lỗi:', error);
       }
     });
   </script>
