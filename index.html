@@ -1,40 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Form thông báo được tối ưu hóa chuẩn SEO và sử dụng Tailwind CSS.">
-    <meta name="keywords" content="Form, Tailwind CSS, SEO, thông báo">
-    <meta name="author" content="Tên của bạn">
-    <title>Form Thông Báo Chuẩn SEO</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhận báo giá BĐS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-    <div class="flex items-center justify-center min-h-screen">
-        <form id="notificationForm" class="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
-            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Thông báo</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Đăng ký nhận báo giá BĐS</h2>
+    <form id="bds-form" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Họ và tên</label>
+        <input type="text" name="name" id="name" required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+      </div>
 
-            <label for="name" class="block text-sm font-medium text-gray-700">Họ và tên</label>
-            <input type="text" id="name" name="name" placeholder="Nhập họ và tên"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-4"
-                required>
-            
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" id="email" name="email" placeholder="Nhập email của bạn"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-4"
-                required>
-            
-            <label for="message" class="block text-sm font-medium text-gray-700">Thông báo</label>
-            <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung thông báo"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-6"
-                required></textarea>
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+        <input type="tel" name="phone" id="phone" required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+      </div>
 
-            <button type="submit"
-                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                Gửi Thông Báo
-            </button>
-        </form>
-    </div>
+      <div>
+        <label for="location" class="block text-sm font-medium text-gray-700">Khu vực quan tâm</label>
+        <input type="text" name="location" id="location"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">Gửi thông tin</button>
+    </form>
+    <p id="success-msg" class="text-green-600 text-sm text-center mt-4 hidden">Đã gửi thành công!</p>
+  </div>
+
+  <script>
+    const form = document.getElementById("bds-form");
+    const successMsg = document.getElementById("success-msg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbzgAx9g1C7NU7CRr63knL78hLMrQ95aBm4XimGRYiP0Fg9BZ1iIAMTRJ7ZLPYRzA7eVZw/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        form.reset();
+        successMsg.classList.remove("hidden");
+      } catch (err) {
+        alert("Có lỗi xảy ra, vui lòng thử lại!");
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>
