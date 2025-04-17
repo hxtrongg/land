@@ -1,43 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Đăng ký tư vấn & Nhận báo giá</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Form thông báo được tối ưu hóa chuẩn SEO và sử dụng Tailwind CSS.">
+    <meta name="keywords" content="Form, Tailwind CSS, SEO, thông báo">
+    <meta name="author" content="Tên của bạn">
+    <title>Form Thông Báo Chuẩn SEO</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <form id="dataForm">
-        <label for="name">Họ và tên:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="phone">Số điện thoại:</label>
-        <input type="tel" id="phone" name="phone" required><br><br>
-        
-        <button type="button" id="submitBtn">Gửi</button>
-    </form>
-    
-    <script>
-        document.getElementById("submitBtn").addEventListener("click", () => {
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
+<body class="bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen">
+        <form id="notificationForm" class="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Thông báo</h1>
 
-            const url = "https://script.google.com/macros/s/AKfycbzgAx9g1C7NU7CRr63knL78hLMrQ95aBm4XimGRYiP0Fg9BZ1iIAMTRJ7ZLPYRzA7eVZw/exec"; // Thay YOUR_WEB_APP_URL bằng URL của Web App từ Apps Script
+            <label for="name" class="block text-sm font-medium text-gray-700">Họ và tên</label>
+            <input type="text" id="name" name="name" placeholder="Nhập họ và tên"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-4"
+                required>
+            
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="email" name="email" placeholder="Nhập email của bạn"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-4"
+                required>
+            
+            <label for="message" class="block text-sm font-medium text-gray-700">Thông báo</label>
+            <textarea id="message" name="message" rows="4" placeholder="Nhập nội dung thông báo"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-6"
+                required></textarea>
 
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, phone }),
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data); // Thông báo khi gửi thành công
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    </script>
+            <button type="submit"
+                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Gửi Thông Báo
+            </button>
+        </form>
+    </div>
 </body>
 </html>
